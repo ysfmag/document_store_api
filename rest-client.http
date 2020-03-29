@@ -1,0 +1,46 @@
+POST  http://localhost:5000/document
+content-type: application/json
+
+{
+    "name":"68c0d0ssss8",
+    "type":"ARCHITECT",
+    "quantity":20
+}
+
+###
+
+
+GET  http://localhost:5000/document/d1059568-ef48-4d20-a9b1-d3bfe8bf41be
+content-type: application/json
+
+
+### 
+
+
+PUT  http://localhost:5000/document/b13a7fa2-e8ab-421e-b073-85f8774f64d5
+content-type: application/json
+
+{
+    "name":"1235",
+    "type":"ARCHITECT",
+    "quantity":200003,
+    "obj":1001
+}
+
+
+
+### 
+
+
+GET  http://localhost:5000/document/b13a7fa2-e8ab-421e-b073-85f8774f64d5/history
+content-type: application/json
+ 
+###
+
+POST   http://localhost:5000/document/b13a7fa2-e8ab-421e-b073-85f8774f64d5/diff
+content-type: application/json
+
+{
+    "version_1":2,
+    "version_2":1
+}
