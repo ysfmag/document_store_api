@@ -2,29 +2,33 @@ POST  http://localhost:5000/document
 content-type: application/json
 
 {
+  "document":{
     "name":"68c0d0ssss8",
-    "type":"ARCHITECT",
-    "quantity":20
+        "type":"3",
+        "quantity":20
+  }  
 }
 
 ###
 
 
-GET  http://localhost:5000/document/d1059568-ef48-4d20-a9b1-d3bfe8bf41be
+GET  http://localhost:5000/document/284fe61f-b359-4e68-b31d-c7313935ef7c
 content-type: application/json
 
 
 ### 
 
 
-PUT  http://localhost:5000/document/b13a7fa2-e8ab-421e-b073-85f8774f64d5
+PUT  http://localhost:5000/document/284fe61f-b359-4e68-b31d-c7313935ef7c
 content-type: application/json
 
 {
+    "document":{
     "name":"1235",
-    "type":"ARCHITECT",
-    "quantity":200003,
-    "obj":1001
+        "type":"ARCHITECT",
+        "quantity":200003,
+        "obj":1001
+    }
 }
 
 

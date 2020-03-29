@@ -1,34 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Document } from 'entities/document.entity';
 import { DocumentHistory } from 'entities/document-history.entity';
 import {
-  createDocumentInstance,
-  createDocumentHistoryInsance,
   documentResponseFormat,
-  formatUpdateDocumentContent,
   formatDocumentHistoryReponse,
 } from './document.domain';
 import { DocumentResponse } from './model/document.response';
 import { DocumentHistoryResponse } from './model/document-history.response';
 import * as jsonDiff from 'json-diff';
+import { DocumentRepository } from './document.repository';
+import { DocumentHistoryRepository } from './document-history.repository';
+
 @Injectable()
 export class DocumentService {
   constructor(
-    @InjectRepository(Document)
-    private readonly documentRepository: Repository<Document>,
-    @InjectRepository(DocumentHistory)
-    private readonly documentHistoryRepository: Repository<DocumentHistory>,
+    @InjectRepository(DocumentRepository)
+    private readonly documentRepository: DocumentRepository,
+    @InjectRepository(DocumentHistoryRepository)
+    private readonly documentHistoryRepository: DocumentHistoryRepository,
   ) {}
 
   async create(documentContent: any): Promise<DocumentResponse | undefined> {
-    const saveDocument = await this.documentRepository.save(
-      createDocumentInstance(documentContent),
+    const saveDocument = await this.documentRepository.createDocument(
+      documentContent,
     );
-    await this.documentHistoryRepository.save(
-      createDocumentHistoryInsance(saveDocument),
-    );
+    await this.documentHistoryRepository.createDocumentHistory(saveDocument);
     return documentResponseFormat(saveDocument);
   }
 
@@ -45,13 +42,12 @@ export class DocumentService {
     const currentDocument = await this.documentRepository.findOne(id);
 
     if (currentDocument) {
-      const newDocument = await this.documentRepository.save(
-        formatUpdateDocumentContent(currentDocument, documentContent),
+      const newDocument = await this.documentRepository.updateDocument(
+        currentDocument,
+        documentContent,
       );
 
-      await this.documentHistoryRepository.save(
-        createDocumentHistoryInsance(newDocument),
-      );
+      await this.documentHistoryRepository.createDocumentHistory(newDocument);
       return documentResponseFormat(newDocument);
     }
 
